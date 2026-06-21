@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Navigation toggle elements
     const menuToggle = document.getElementById("menuToggle");
     const navLinks = document.getElementById("navLinks");
-    const langSelect = document.getElementById("langSelect");
     const contactForm = document.getElementById("contactForm");
     const formFeedback = document.getElementById("formFeedback");
     
@@ -15,9 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
     document.documentElement.setAttribute('lang', currentLang);
     document.body.className = 'lang-' + currentLang;
-    if (langSelect) {
-        langSelect.value = currentLang;
-    }
     updateLanguageUI(currentLang);
 
     // Handle Scroll Header Effect
@@ -62,18 +58,54 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Language Dropdown Selector Change
-    if (langSelect) {
-        langSelect.addEventListener("change", (e) => {
-            currentLang = e.target.value;
-            localStorage.setItem('preferredLanguage', currentLang);
-            document.body.className = 'lang-' + currentLang;
-            const isRTL = (currentLang === 'ar' || currentLang === 'ur');
-            document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
-            document.documentElement.setAttribute('lang', currentLang);
-            updateLanguageUI(currentLang);
+    // Custom Language Switcher
+    const langTrigger = document.getElementById("langTrigger");
+    const langDropdown = document.getElementById("langDropdown");
+    const langCurrent = document.getElementById("langCurrent");
+    const langSwitcher = document.getElementById("langSwitcher");
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('preferredLanguage', lang);
+        document.body.className = 'lang-' + lang;
+        const isRTL = (lang === 'ar' || lang === 'ur');
+        document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('lang', lang);
+        updateLanguageUI(lang);
+        // Update trigger label
+        if (langCurrent && typeof LANGUAGES !== 'undefined') {
+            const langObj = LANGUAGES.find(l => l.code === lang) || LANGUAGES[0];
+            langCurrent.textContent = langObj.flag + ' ' + langObj.label;
+        }
+        // Update active class on options
+        if (langDropdown) {
+            langDropdown.querySelectorAll('.lang-option').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+        }
+    }
+
+    if (langTrigger && langDropdown) {
+        langTrigger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            langSwitcher.classList.toggle("open");
+        });
+
+        langDropdown.querySelectorAll(".lang-option").forEach(btn => {
+            btn.addEventListener("click", () => {
+                setLanguage(btn.dataset.lang);
+                langSwitcher.classList.remove("open");
+            });
+        });
+
+        // Close on outside click
+        document.addEventListener("click", (e) => {
+            if (!langSwitcher.contains(e.target)) {
+                langSwitcher.classList.remove("open");
+            }
         });
     }
+
 
     // FAQ Accordion Toggle
     const faqQuestions = document.querySelectorAll(".faq-question");

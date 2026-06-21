@@ -3,13 +3,23 @@
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
 const NAV_LINKS = [
-    { href: 'index.html',        labelKey: 'nav_home',      label: 'الرئيسية' },
-    { href: 'index.html#gallery', labelKey: 'nav_gallery',   label: 'معرض الصور' },
-    { href: 'how-it-works.html', labelKey: 'nav_how',       label: 'كيف نعمل' },
-    { href: 'index.html#reviews', labelKey: 'nav_reviews',   label: 'آراء العملاء' },
-    { href: 'about.html',        labelKey: 'nav_about',     label: 'من نحن' },
-    { href: 'faq.html',          labelKey: 'nav_faq',       label: 'الأسئلة الشائعة' },
-    { href: 'contact.html',      labelKey: 'nav_contact',   label: 'اتصل بنا' },
+    { href: 'index.html',        labelKey: 'nav_home',    label: 'الرئيسية' },
+    { href: 'how-it-works.html', labelKey: 'nav_how',     label: 'كيف نعمل' },
+    { href: 'about.html',        labelKey: 'nav_about',   label: 'من نحن' },
+    { href: 'faq.html',          labelKey: 'nav_faq',     label: 'الأسئلة الشائعة' },
+    { href: 'contact.html',      labelKey: 'nav_contact', label: 'اتصل بنا' },
+];
+
+const LANGUAGES = [
+    { code: 'ar', label: 'العربية',           flag: '🇸🇦' },
+    { code: 'en', label: 'English',            flag: '🇬🇧' },
+    { code: 'bn', label: 'বাংলা',              flag: '🇧🇩' },
+    { code: 'hi', label: 'हिन्दी',             flag: '🇮🇳' },
+    { code: 'ur', label: 'اردو',              flag: '🇵🇰' },
+    { code: 'zh', label: '中文',               flag: '🇨🇳' },
+    { code: 'fr', label: 'Français',           flag: '🇫🇷' },
+    { code: 'de', label: 'Deutsch',            flag: '🇩🇪' },
+    { code: 'es', label: 'Español',            flag: '🇪🇸' },
 ];
 
 // Extend global translations object with new keys if it exists
@@ -223,8 +233,9 @@ if (typeof translations !== 'undefined') {
     }
 }
 
+
 function buildHeader() {
-    const navItems = NAV_LINKS.filter(link => link.labelKey !== 'nav_reviews').map(link => {
+    const navItems = NAV_LINKS.map(link => {
         const baseHref = link.href.split('#')[0];
         const hash = link.href.split('#')[1];
         let active = '';
@@ -235,7 +246,7 @@ function buildHeader() {
                     active = 'class="active"';
                 }
             } else {
-                const otherHashes = NAV_LINKS.filter(l => l.href.includes('#') && l.labelKey !== 'nav_reviews').map(l => '#' + l.href.split('#')[1]);
+                const otherHashes = NAV_LINKS.filter(l => l.href.includes('#')).map(l => '#' + l.href.split('#')[1]);
                 if (!otherHashes.includes(window.location.hash)) {
                     active = 'class="active"';
                 }
@@ -243,6 +254,14 @@ function buildHeader() {
         }
         return `<a href="${link.href}" ${active} data-i18n="${link.labelKey}">${link.label}</a>`;
     }).join('\n');
+
+    const currentLangObj = LANGUAGES.find(l => l.code === (localStorage.getItem('preferredLanguage') || 'ar')) || LANGUAGES[0];
+    const langOptions = LANGUAGES.map(l => 
+        `<button class="lang-option${l.code === currentLangObj.code ? ' active' : ''}" data-lang="${l.code}">
+            <span class="lang-flag">${l.flag}</span>
+            <span class="lang-name">${l.label}</span>
+        </button>`
+    ).join('');
 
     return `
     <header>
@@ -258,17 +277,16 @@ function buildHeader() {
                     <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                     <span data-i18n="call_now">اتصل الآن</span>
                 </a>
-                <select class="lang-select" id="langSelect" aria-label="Language Selector">
-                    <option value="ar">العربية</option>
-                    <option value="en">English</option>
-                    <option value="bn">বাংলা (Bengali)</option>
-                    <option value="hi">हिन्दी (Hindi)</option>
-                    <option value="ur">اردو (Urdu)</option>
-                    <option value="zh">中文 (Chinese)</option>
-                    <option value="fr">Français (French)</option>
-                    <option value="de">Deutsch (German)</option>
-                    <option value="es">Español (Spanish)</option>
-                </select>
+                <div class="lang-switcher" id="langSwitcher">
+                    <button class="lang-trigger" id="langTrigger" aria-label="Language Selector">
+                        <svg class="lang-globe" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        <span class="lang-current" id="langCurrent">${currentLangObj.flag} ${currentLangObj.label}</span>
+                        <svg class="lang-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        ${langOptions}
+                    </div>
+                </div>
                 <div class="menu-toggle" id="menuToggle">
                     <span></span><span></span><span></span>
                 </div>
@@ -276,6 +294,7 @@ function buildHeader() {
         </div>
     </header>`;
 }
+
 
 function buildFooter() {
     return `
@@ -292,7 +311,6 @@ function buildFooter() {
                     <h4 data-i18n="footer_quick_links">روابط سريعة</h4>
                     <ul class="footer-links">
                         <li><a href="index.html" data-i18n="nav_home">الرئيسية</a></li>
-                        <li><a href="index.html#gallery" data-i18n="nav_gallery">معرض الصور</a></li>
                         <li><a href="how-it-works.html" data-i18n="nav_how">كيف نعمل</a></li>
                         <li><a href="index.html#reviews" data-i18n="nav_reviews">آراء العملاء</a></li>
                         <li><a href="about.html" data-i18n="nav_about">من نحن</a></li>

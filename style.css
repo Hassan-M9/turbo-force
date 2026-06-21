@@ -144,7 +144,7 @@ ul {
 }
 
 /* Frosted glass overlays for content sections */
-.gallery-section, 
+.gallery-section,
 .faq, 
 .contact, 
 .catalog,
@@ -359,50 +359,124 @@ header .container {
     animation: phoneShake 1.2s ease-in-out infinite;
 }
 
-/* Lang Select Dropdown */
-.lang-select {
+/* Custom Language Switcher */
+.lang-switcher {
+    position: relative;
+}
+
+.lang-trigger {
     display: inline-flex;
     align-items: center;
+    gap: 7px;
     height: 42px;
-    background: rgba(255, 255, 255, 0.03);
+    padding: 0 14px;
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-glass);
-    color: var(--text-primary);
-    padding: 0 16px;
-    border-radius: 30px;
+    color: var(--text-secondary);
+    border-radius: 50px;
     font-size: 0.85rem;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding-right: 32px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 14px;
-    box-sizing: border-box;
+    white-space: nowrap;
+    font-family: inherit;
 }
 
-.lang-select:hover {
-    background-color: rgba(212, 175, 55, 0.08);
-    border-color: var(--accent-start);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-}
-
-.lang-select option {
-    background: #0c0c0e;
+.lang-trigger:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
-    font-weight: 600;
 }
 
-/* RTL overrides for select arrow positioning */
-[dir="rtl"] .lang-select {
-    padding-right: 16px;
-    padding-left: 32px;
-    background-position: left 10px center;
+.lang-globe {
+    width: 16px;
+    height: 16px;
+    fill: var(--accent-start);
+    flex-shrink: 0;
 }
+
+.lang-current {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lang-chevron {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.lang-switcher.open .lang-chevron {
+    transform: rotate(180deg);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    inset-inline-end: 0;
+    width: 180px;
+    background: rgba(14, 14, 18, 0.97);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
+    padding: 8px;
+    z-index: 1100;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.lang-switcher.open .lang-dropdown {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+    text-align: start;
+    font-family: inherit;
+}
+
+.lang-option:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+}
+
+.lang-option.active {
+    background: rgba(255, 94, 54, 0.12);
+    color: var(--accent-start);
+}
+
+.lang-flag {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.lang-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 
 /* Menu Toggle (Mobile) */
 .menu-toggle {
@@ -493,18 +567,7 @@ header .container {
     display: inline-block;
 }
 
-.hero h1 span::after {
-    content: '';
-    position: absolute;
-    bottom: 8px;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: var(--accent-gradient);
-    border-radius: 4px;
-    opacity: 0.3;
-    z-index: -1;
-}
+
 
 .hero p {
     font-size: 1.2rem;
@@ -1357,7 +1420,7 @@ body[dir="rtl"] .footer-links a:hover {
         bottom: 0;
     }
 
-    .lang-select {
+    .lang-trigger {
         height: 40px;
     }
 
@@ -1513,15 +1576,14 @@ body[dir="rtl"] .footer-links a:hover {
         width: 36px;
     }
 
-    .lang-select {
-        font-size: 0.75rem;
-        padding: 0 10px 0 28px;
+    .lang-trigger {
         height: 36px;
+        padding: 0 10px;
+        font-size: 0.8rem;
     }
 
-    [dir="rtl"] .lang-select {
-        padding-right: 10px;
-        padding-left: 28px;
+    .lang-current {
+        display: none;
     }
 
     .faq-question {
@@ -1774,7 +1836,7 @@ body[dir="rtl"] .footer-links a:hover {
     fill: currentColor;
 }
 
-/* Gallery Section Custom Premium Styles */
+/* Gallery Section Styles */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -1799,7 +1861,7 @@ body[dir="rtl"] .footer-links a:hover {
     inset: 0;
     border-radius: var(--radius-md);
     padding: 1.5px;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(170, 124, 17, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(255, 94, 54, 0.25) 0%, rgba(255, 159, 67, 0.25) 100%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -1811,7 +1873,7 @@ body[dir="rtl"] .footer-links a:hover {
 .gallery-card:hover {
     transform: translateY(-8px);
     background: var(--bg-glass-hover);
-    box-shadow: var(--shadow-premium), var(--shadow-glow);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(255, 94, 54, 0.1);
 }
 
 .gallery-card:hover::before {
@@ -1823,7 +1885,7 @@ body[dir="rtl"] .footer-links a:hover {
     width: 100%;
     height: 320px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid var(--border-glass);
 }
 
@@ -1831,11 +1893,11 @@ body[dir="rtl"] .footer-links a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition);
+    transition: transform 0.5s ease;
 }
 
 .gallery-card:hover .gallery-img-wrapper img {
-    transform: scale(1.08);
+    transform: scale(1.06);
 }
 
 .gallery-info {
@@ -1843,6 +1905,21 @@ body[dir="rtl"] .footer-links a:hover {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+}
+
+.gallery-info h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(180deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gallery-info p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 /* Floating WhatsApp Widget Styles */
@@ -2017,65 +2094,7 @@ body[dir="rtl"] .footer-links a:hover {
     }
 }
 
-/* Lightbox Modal */
-.lightbox-modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    padding-top: 60px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(5, 5, 5, 0.95);
-    backdrop-filter: blur(10px);
-}
 
-.lightbox-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    max-height: 80vh;
-    object-fit: contain;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    animation: zoomIn 0.3s ease;
-}
-
-@keyframes zoomIn {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-.lightbox-close {
-    position: absolute;
-    top: 30px;
-    right: 45px;
-    color: var(--text-secondary);
-    font-size: 40px;
-    font-weight: bold;
-    transition: var(--transition);
-    cursor: pointer;
-}
-
-.lightbox-close:hover,
-.lightbox-close:focus {
-    color: var(--text-primary);
-    text-decoration: none;
-    transform: scale(1.1);
-}
-
-@media only screen and (max-width: 700px){
-    .lightbox-content {
-        width: 100%;
-    }
-    .lightbox-close {
-        right: 20px;
-        top: 20px;
-    }
-}
 /* About Section Stats Grid Styling */
 .about-stats-grid {
     display: grid;
@@ -2535,10 +2554,7 @@ body[dir="rtl"] .footer-links a:hover {
     animation: underlinePulse 2.5s ease-in-out infinite;
 }
 
-@keyframes underlinePulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.65; }
-}
+
 
 /* =====================================================
    SECTION ENTRY ANIMATIONS (Intersection Observer)
