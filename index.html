@@ -58,341 +58,114 @@
     
     <!-- JavaScript Application Logic -->
     <script src="translations.js" defer></script>
+    <script src="shared.js" defer></script>
     <script src="app.js" defer></script>
 </head>
 <body>
 
-    <!-- Header & Navigation -->
-    <header>
-        <div class="container">
-            <a href="#home" class="logo" aria-label="Turbo Force Home" data-i18n="company_name">
-                تيربو فورس | Turbo Force
-            </a>
-
-            <nav class="nav-links" id="navLinks">
-                <a href="#home" class="active" data-i18n="nav_home">الرئيسية</a>
-                <a href="#gallery" data-i18n="nav_gallery">معرض الصور</a>
-                <a href="#about" data-i18n="nav_about">من نحن</a>
-                <a href="#faq" data-i18n="nav_faq">الأسئلة الشائعة</a>
-                <a href="#contact" data-i18n="nav_contact">اتصل بنا</a>
-            </nav>
-
-            <div class="header-actions">
-                <!-- Direct Phone calling trigger -->
-                <a href="tel:0536758510" class="phone-btn">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                    </svg>
-                    <span data-i18n="call_now">اتصل الآن</span>
-                </a>
-
-                <!-- Language Switcher -->
-                <select class="lang-select" id="langSelect" aria-label="Language Selector">
-                    <option value="ar">العربية</option>
-                    <option value="en">English</option>
-                    <option value="bn">বাংলা (Bengali)</option>
-                    <option value="hi">हिन्दी (Hindi)</option>
-                    <option value="ur">اردو (Urdu)</option>
-                    <option value="zh">中文 (Chinese)</option>
-                    <option value="fr">Français (French)</option>
-                    <option value="de">Deutsch (German)</option>
-                    <option value="es">Español (Spanish)</option>
-                </select>
-
-                <!-- Hamburger menu (mobile) -->
-                <div class="menu-toggle" id="menuToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <!-- Animated particle orbs -->
+        <div class="hero-particles" aria-hidden="true">
+            <div class="particle p1"></div>
+            <div class="particle p2"></div>
+            <div class="particle p3"></div>
+            <div class="particle p4"></div>
+            <div class="particle p5"></div>
+        </div>
         <div class="container">
             <div class="hero-content">
                 <span class="hero-tag" data-i18n="hero_tag">المركز المعتمد الأول بالمملكة لبيع وصيانة التيربو</span>
                 <h1 data-i18n="hero_title">قطع غيار وأنوية التيربو <span>بالسعودية</span></h1>
                 <p data-i18n="hero_desc">نوفر شواحن التيربو، أنويتها (الخراطيش)، وأطقم الإصلاح المصنعة لتحمل الأجواء الحارة بالمملكة لكافة موديلات السيارات الصينية والديزل بالرياض وخارجها.</p>
                 <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary" data-i18n="hero_cta_products">طلب سعر فوري</a>
+                    <a href="contact.html" class="btn btn-primary" data-i18n="hero_cta_products">طلب سعر فوري</a>
                     <a href="tel:0536758510" class="btn btn-secondary" data-i18n="hero_cta_call">اتصل بنا مباشرة</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Contact Us & Location Section (Merged to prevent vertical gaps and optimize layout balance) -->
-    <section class="contact section-padding" id="contact" style="background-color: var(--bg-secondary);">
-        <div class="container">
-            <h2 class="section-title" data-i18n="nav_contact">اتصل بنا</h2>
-            <div class="contact-wrapper">
-                
-                <!-- Contact Form column (Right on RTL) -->
-                <div class="contact-form-container">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 25px;" data-i18n="contact_form_title">أرسل لنا استفسارك</h3>
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="clientName" data-i18n="form_name">الاسم الكامل</label>
-                            <input type="text" id="clientName" required data-i18n-placeholder="form_name">
-                        </div>
-                        <div class="form-group">
-                            <label for="clientPhone" data-i18n="form_phone">رقم الجوال</label>
-                            <input type="tel" id="clientPhone" required data-i18n-placeholder="form_phone">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="clientTurboCode" data-i18n="form_turbo_code">كود التيربو / رقم القطعة (المكتوب على التيربو)</label>
-                            <div class="turbo-code-input-wrapper" style="position: relative; display: flex; flex-direction: column; gap: 4px;">
-                                <input type="text" id="clientTurboCode" data-i18n-placeholder="form_turbo_code">
-                                <button type="button" class="btn-guide-toggle" id="guideToggle">
-                                    <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; fill: currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                                    <span data-i18n="show_guide">أين أجد الكود؟ (عرض صورة توضيحية)</span>
-                                </button>
-                                <div class="turbo-guide-image-container" id="turboGuideContainer">
-                                    <!-- Tabs Buttons for locations -->
-                                    <div class="guide-tabs" style="display: flex; gap: 8px; margin-bottom: 12px; justify-content: center; flex-wrap: wrap;">
-                                        <button type="button" class="guide-tab-btn active" data-guide-index="1">
-                                            <span data-i18n="guide_tab_1">الموضع 1: غطاء الألمنيوم</span>
-                                        </button>
-                                        <button type="button" class="guide-tab-btn" data-guide-index="2">
-                                            <span data-i18n="guide_tab_2">الموضع 2: قلب التيربو (CHRA)</span>
-                                        </button>
-                                        <button type="button" class="guide-tab-btn" data-guide-index="3">
-                                            <span data-i18n="guide_tab_3">الموضع 3: محفور على الحديد</span>
-                                        </button>
-                                    </div>
-                                    
-                                    <!-- Image Views -->
-                                    <div class="guide-image-view" style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%;">
-                                        <img id="guideImage" src="assets/turbo_plate_1.png" alt="Turbo Identification Plate Guide">
-                                        <p id="guideImageCaption" class="guide-caption" data-i18n="guide_caption_1" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 8px; font-weight: 500; text-align: center;">
-                                            ابحث عن اللوحة المعدنية المثبتة على غطاء الألمنيوم الخارجي للتيربو (المكثف)، وانسخ الأرقام المسجلة.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Beautiful File Upload Container -->
-                        <div class="form-group full-width">
-                            <label data-i18n="form_upload_label">أو إرفاق صورة للوحة بيانات التيربو (أسهل وأسرع)</label>
-                            <div class="file-upload-wrapper">
-                                <input type="file" id="clientTurboImage" accept="image/*" style="display: none;">
-                                <label for="clientTurboImage" class="file-upload-label">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
-                                    </svg>
-                                    <span data-i18n="upload_btn_text">اضغط هنا لرفع صورة اللوحة أو التيربو</span>
-                                </label>
-                                <div class="upload-preview-container" id="uploadPreviewContainer">
-                                    <!-- Populated dynamically by app.js -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="clientEmail" data-i18n="form_email">البريد الإلكتروني</label>
-                            <input type="email" id="clientEmail" data-i18n-placeholder="form_email">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="clientMessage" data-i18n="form_message">تفاصيل الطلب أو نوع قطعة الغيار المطلوبة</label>
-                            <textarea id="clientMessage" required data-i18n-placeholder="form_message"></textarea>
-                        </div>
-                        <button type="submit" class="form-submit-btn">
-                            <span data-i18n="form_submit">إرسال طلب السعر هاتفياً</span>
-                        </button>
-                        <div class="form-feedback" id="formFeedback" data-i18n="form_success_msg">
-                            تم استلام استفسارك بنجاح! سنقوم بالاتصال بك هاتفياً في أقرب وقت لتزويدك بعرض السعر المناسب.
-                        </div>
-                    </form>
+            <!-- Quick Stats Bar inside Hero -->
+            <div class="hero-stats">
+                <div class="hero-stat-item">
+                    <strong class="hero-stat-num" data-target="1000">0</strong>
+                    <span>+</span>
+                    <p data-i18n="hero_stat_clients">عميل سعيد</p>
                 </div>
-
-                <!-- Info & Map Sidebar (Left on RTL) -->
-                <div class="contact-sidebar">
-                    
-                    <!-- Contact Details Card -->
-                    <div class="contact-info-card">
-                        <div class="contact-info-title">
-                            <h3 data-i18n="contact_title">تواصل معنا مباشرة</h3>
-                            <p data-i18n="contact_info_desc">يسعدنا الرد على استفساراتكم وتلقي طلبات الأسعار على مدار الساعة. تواصل معنا هاتفياً أو املأ النموذج وسنقوم بالرد الفوري.</p>
-                        </div>
-
-                        <div class="contact-details">
-                            <!-- Phone detail -->
-                            <div class="contact-detail-item">
-                                <div class="contact-detail-icon icon-phone">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                                    </svg>
-                                </div>
-                                <div class="contact-detail-text">
-                                    <h5 data-i18n="contact_label_phone">رقم الهاتف المباشر</h5>
-                                    <p><a href="tel:0536758510">0536758510</a></p>
-                                </div>
-                            </div>
-
-                            <!-- Email detail -->
-                            <div class="contact-detail-item">
-                                <div class="contact-detail-icon icon-email">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                                    </svg>
-                                </div>
-                                <div class="contact-detail-text">
-                                    <h5 data-i18n="contact_label_email">البريد الإلكتروني</h5>
-                                    <p><a href="mailto:turbo.force182@gmail.com">turbo.force182@gmail.com</a></p>
-                                </div>
-                            </div>
-
-                            <!-- Address detail -->
-                            <div class="contact-detail-item">
-                                <div class="contact-detail-icon icon-address">
-                                    <svg viewBox="0 0 24 24">
-                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                                    </svg>
-                                </div>
-                                <div class="contact-detail-text">
-                                    <h5 data-i18n="contact_label_address">مقر المركز</h5>
-                                    <p data-i18n="contact_address_val">المملكة العربية السعودية، الرياض، صناعية الدريهمية</p>
-                                </div>
-                            </div>
-
-                            <!-- Instagram detail -->
-                            <div class="contact-detail-item">
-                                <div class="contact-detail-icon icon-instagram">
-                                    <svg viewBox="0 0 16 16" style="fill: currentColor; width: 20px; height: 20px;">
-                                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-                                     </svg>
-                                </div>
-                                <div class="contact-detail-text">
-                                     <h5 data-i18n="contact_label_instagram">إنستغرام</h5>
-                                     <p><a href="https://www.instagram.com/turbo.force1?igsh=MWlwaDhmZG5mZGZwcg==" target="_blank">turbo.force1</a></p>
-                                </div>
-                            </div>
-
-                            <!-- Snapchat detail -->
-                            <div class="contact-detail-item">
-                                <div class="contact-detail-icon icon-snapchat">
-                                    <svg viewBox="0 0 16 16" style="fill: currentColor; width: 20px; height: 20px;">
-                                         <path d="M15.943 11.526c-.111-.303-.323-.465-.564-.599a1 1 0 0 0-.123-.064l-.219-.111c-.752-.399-1.339-.902-1.746-1.498a3.4 3.4 0 0 1-.3-.531c-.034-.1-.032-.156-.008-.207a.3.3 0 0 1 .097-.1c.129-.086.262-.173.352-.231.162-.104.289-.187.371-.245.309-.216.525-.446.66-.702a1.4 1.4 0 0 0 .069-1.16c-.205-.538-.713-.872-1.329-.872a1.8 1.8 0 0 0-.487.065c.006-.368-.002-.757-.035-1.139-.116-1.344-.587-2.048-1.077-2.61a4.3 4.3 0 0 0-1.095-.881C9.764.216 8.92 0 7.999 0s-1.76.216-2.505.641c-.412.232-.782.53-1.097.883-.49.562-.96 1.267-1.077 2.61-.033.382-.04.772-.036 1.138a1.8 1.8 0 0 0-.487-.065c-.615 0-1.124.335-1.328.873a1.4 1.4 0 0 0 .067 1.161c.136.256.352.486.66.701.082.058.21.14.371.246l.339.221a.4.4 0 0 1 .109.11c.026.053.027.11-.012.217a3.4 3.4 0 0 1-.295.52c-.398.583-.968 1.077-1.696 1.472-.385.204-.786.34-.955.8-.128.348-.044.743.28 1.075q.18.189.409.31a4.4 4.4 0 0 0 1 .4.7.7 0 0 1 .202.09c.118.104.102.26.259.488q.12.178.296.3c.33.229.701.243 1.095.258.355.014.758.03 1.217.18.19.064.389.186.618.328.55.338 1.305.802 2.566.802 1.262 0 2.02-.466 2.576-.806.227-.14.424-.26.609-.321.46-.152.863-.168 1.218-.181.393-.015.764-.03 1.095-.258a1.14 1.14 0 0 0 .336-.368c.114-.192.11-.327.217-.42a.6.6 0 0 1 .19-.087 4.5 4.5 0 0 0 1.014-.404c.16-.087.306-.2.429-.336l.004-.005c.304-.325.38-.709.256-1.047m-1.121.602c-.684.378-1.139.337-1.493.565-.3.193-.122.61-.34.76-.269.186-1.061-.012-2.085.326-.845.279-1.384 1.082-2.903 1.082s-2.045-.801-2.904-1.084c-1.022-.338-1.816-.14-2.084-.325-.218-.15-.041-.568-.341-.761-.354-.228-.809-.187-1.492-.563-.436-.24-.189-.39-.044-.46 2.478-1.199 2.873-3.05 2.89-3.188.022-.166.045-.297-.138-.466-.177-.164-.962-.65-1.18-.802-.36-.252-.52-.503-.402-.812.082-.214.281-.295.49-.295a1 1 0 0 1 0 2"/>
-                                     </svg>
-                                </div>
-                                <div class="contact-detail-text">
-                                     <h5 data-i18n="contact_label_snapchat">سناب شات</h5>
-                                     <p><a href="https://www.snapchat.com/add/turboforce1?share_id=UqCqIdWN4Sw&amp;locale=ar-EG" target="_blank">turboforce1</a></p>
-                                </div>
-                            </div>
-
-                            <!-- TikTok detail -->
-                            <div class="contact-detail-item">
-                                <div class="contact-detail-icon icon-tiktok">
-                                    <svg viewBox="0 0 16 16" style="fill: currentColor; width: 20px; height: 20px;">
-                                        <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/>
-                                    </svg>
-                                </div>
-                                <div class="contact-detail-text">
-                                    <h5 data-i18n="contact_label_tiktok">تيك توك</h5>
-                                    <p><a href="https://www.tiktok.com/@turbo.force8?_r=1&_t=ZS-97OKf2y98EO" target="_blank">turbo.force8</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Map Container -->
-                    <div class="map-container">
-                        <!-- Embedded Google Map centered on Riyadh Ad Diraihimiyah Area -->
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3627.904217248724!2d46.7028356!3d24.5925016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0fb9bfaec3ed%3A0x846fd3ffdedf715b!2z2LXYhtin2LnZitipINin2YTYr9ix2YrZh9mF2YrYqSDZhNi12YrYp9mG2Kkg2KfZhNiz2YrYp9ix2KfYqg!5e0!3m2!1sar!2ssa!4v1782031423521!5m2!1sar!2ssa" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        <!-- Map Info Card Overlay -->
-                        <div class="map-card">
-                            <h4>تيربو فورس بيع وصيانة جميع أنواع التيربو</h4>
-                            <p>المملكة العربية السعودية، الرياض، صناعية الدريهمية</p>
-                            <p style="margin-bottom: 15px;"><strong>ساعات العمل:</strong> يومياً من 8:00 صباحاً حتى 8:00 مساءً (الجمعة عطلة)</p>
-                            <a href="https://www.google.com/maps/place/%D8%B5%D9%86%D8%A7%D8%B9%D9%8A%D8%A9+%D8%A7%D9%84%D8%AF%D8%B1%D9%8A%D9%87%D9%85%D9%8A%D8%A9+%D9%84%D8%B5%D9%8a%D8%A7%D9%86%D8%A9+%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA%E2%80%AD/@24.5925016,46.7028356" target="_blank" class="map-btn">
-                                <span>افتح في خرائط جوجل</span>
-                                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: currentColor;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat-item">
+                    <strong class="hero-stat-num" data-target="5">0</strong>
+                    <span>+</span>
+                    <p data-i18n="hero_stat_experience">سنوات خبرة</p>
                 </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features section-padding">
-        <div class="container">
-            <h2 class="section-title" data-i18n="features_title">لماذا تختار قطع الغيار لدينا؟</h2>
-            <div class="features-grid">
-                <!-- Feature 1 -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="feat_1_title">جودة عالية ومضمونة</h3>
-                    <p data-i18n="feat_1_desc">جميع قطع الغيار وأنوية التيربو مصنعة من مواد عالية التحمل ومقاومة للحرارة العالية لضمان استقرار الأداء.</p>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat-item">
+                    <strong class="hero-stat-num" data-target="12">0</strong>
+                    <span></span>
+                    <p data-i18n="hero_stat_brands">ماركة مدعومة</p>
                 </div>
-                <!-- Feature 2 -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="feat_2_title">دعم فني واستشارات</h3>
-                    <p data-i18n="feat_2_desc">فريقنا المتخصص مستعد لتقديم المشورة الفنية ومساعدتك في اختيار القطعة المناسبة لمحركك بدقة.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5l1.97 2.5H17z"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="feat_3_title">شحن سريع لكافة مدن المملكة</h3>
-                    <p data-i18n="feat_3_desc">نشحن يومياً لكافة مدن المملكة (جدة، الدمام، مكة، المدينة، القصيم، عسير) عبر سمسا، أرامكس، وزاجل لضمان وصول سريع وآمن.</p>
-                </div>
-                <!-- Feature 4 -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
-                        </svg>
-                    </div>
-                    <h3 data-i18n="feat_4_title">أسعار تنافسية خاصة بالسوق السعودي</h3>
-                    <p data-i18n="feat_4_desc">نقدم أسعاراً تنافسية خاصة لورش الصيانة والموزعين ومحلات قطع الغيار في السوق السعودي عند الطلب مباشرة.</p>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat-item">
+                    <strong class="hero-stat-num" data-target="48">0</strong>
+                    <span data-i18n="hero_stat_delivery_unit">سا</span>
+                    <p data-i18n="hero_stat_delivery">توصيل لكل المدن</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Product Gallery Section -->
-    <section class="gallery-section section-padding" id="gallery" style="background-color: var(--bg-secondary);">
+    <!-- Brands Strip Section -->
+    <section class="brands-strip">
+        <div class="brands-track-wrapper">
+            <div class="brands-track" id="brandsTrack">
+                <!-- Brand items duplicated for infinite loop -->
+                <div class="brand-item"><span>شانجان</span><small>Changan</small></div>
+                <div class="brand-item"><span>هافال</span><small>Haval</small></div>
+                <div class="brand-item"><span>جيلي</span><small>Geely</small></div>
+                <div class="brand-item"><span>إم جي</span><small>MG</small></div>
+                <div class="brand-item"><span>فاو</span><small>FAW</small></div>
+                <div class="brand-item"><span>تويوتا</span><small>Toyota</small></div>
+                <div class="brand-item"><span>هيونداي</span><small>Hyundai</small></div>
+                <div class="brand-item"><span>كيا</span><small>Kia</small></div>
+                <div class="brand-item"><span>ميتسوبيشي</span><small>Mitsubishi</small></div>
+                <div class="brand-item"><span>فولفو</span><small>Volvo</small></div>
+                <div class="brand-item"><span>بيك</span><small>BAIC</small></div>
+                <div class="brand-item"><span>جيتور</span><small>Jetour</small></div>
+                <!-- Duplicate for seamless loop -->
+                <div class="brand-item" aria-hidden="true"><span>شانجان</span><small>Changan</small></div>
+                <div class="brand-item" aria-hidden="true"><span>هافال</span><small>Haval</small></div>
+                <div class="brand-item" aria-hidden="true"><span>جيلي</span><small>Geely</small></div>
+                <div class="brand-item" aria-hidden="true"><span>إم جي</span><small>MG</small></div>
+                <div class="brand-item" aria-hidden="true"><span>فاو</span><small>FAW</small></div>
+                <div class="brand-item" aria-hidden="true"><span>تويوتا</span><small>Toyota</small></div>
+                <div class="brand-item" aria-hidden="true"><span>هيونداي</span><small>Hyundai</small></div>
+                <div class="brand-item" aria-hidden="true"><span>كيا</span><small>Kia</small></div>
+                <div class="brand-item" aria-hidden="true"><span>ميتسوبيشي</span><small>Mitsubishi</small></div>
+                <div class="brand-item" aria-hidden="true"><span>فولفو</span><small>Volvo</small></div>
+                <div class="brand-item" aria-hidden="true"><span>بيك</span><small>BAIC</small></div>
+                <div class="brand-item" aria-hidden="true"><span>جيتور</span><small>Jetour</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section section-padding" id="gallery">
         <div class="container">
             <h2 class="section-title" data-i18n="gallery_title">شواحن وقلوب التيربو</h2>
-            <p style="text-align: center; max-width: 700px; margin: -30px auto 50px; color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6;" data-i18n="gallery_desc">
+            <p style="text-align:center; max-width:700px; margin:-30px auto 50px; color:var(--text-secondary); font-size:1.1rem; line-height:1.6;" data-i18n="gallery_desc">
                 نحن نوفر تشكيلة واسعة من خراطيش وأنوية وشواحن التيربو المعتمدة لكافة موديلات السيارات بأسعار منافسة.
             </p>
-            
             <div class="gallery-grid">
-                <!-- Gallery Item 1: Complete Turbos -->
                 <div class="gallery-card">
                     <div class="gallery-img-wrapper">
-                        <img src="assets/complete_turbo.png" alt="Complete Turbocharger">
+                        <img src="assets/complete_turbo.png" alt="Complete Turbocharger" style="cursor: pointer;">
                     </div>
                     <div class="gallery-info">
                         <h3 data-i18n="gallery_item1_title">شواحن تيربو كاملة</h3>
                         <p data-i18n="gallery_item1_desc">شواحن تيربو مجمعة وجاهزة للتركيب المباشر لكافة محركات البنزين والديزل.</p>
                     </div>
                 </div>
-
-                <!-- Gallery Item 2: Turbo Cores -->
                 <div class="gallery-card">
                     <div class="gallery-img-wrapper">
-                        <img src="assets/turbo_core_cartridge.png" alt="Turbocharger Core Cartridge CHRA">
+                        <img src="assets/turbo_core_cartridge.png" alt="Turbocharger Core Cartridge CHRA" style="cursor: pointer;">
                     </div>
                     <div class="gallery-info">
                         <h3 data-i18n="gallery_item2_title">قلب التيربو (الخراطيش)</h3>
@@ -400,207 +173,161 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Centralized Contact Call-to-action button -->
-            <div style="text-align: center;">
-                <a href="#contact" class="btn btn-primary" style="padding: 18px 45px; border-radius: var(--radius-sm); font-weight: 800; text-transform: uppercase;" data-i18n="gallery_cta">اتصل بنا لمعرفة السعر والتوافق</a>
+            <div style="text-align:center; margin-top:40px;">
+                <a href="contact.html" class="btn btn-primary" style="padding:18px 45px;" data-i18n="gallery_cta">اتصل بنا لمعرفة السعر والتوافق</a>
             </div>
         </div>
     </section>
 
-
-    <!-- About Us Section -->
-    <section class="about section-padding" id="about">
+    <!-- Customer Reviews Section -->
+    <section class="reviews section-padding" id="reviews">
         <div class="container">
-            <div class="about-wrapper">
-                
-                <!-- Text Content Column -->
-                <div class="about-content">
-                    <h2 data-i18n="about_title">حول المركز وخبرتنا</h2>
-                    <p data-i18n="about_desc">تأسس مركزنا بالرياض ليكون الخيار الأول لورش صيانة السيارات والمهندسين بالمملكة الباحثين عن قطع تيربو معتمدة وموثوقة تتحمل الظروف الشاقة والحرارة العالية. نحن ندرك دور التيربو في قوة المحرك، لذا نوفر لعملائنا في السعودية أفضل قطع غيار معتمدة بالضمان.</p>
-                    <div class="about-grid">
-                        <div class="about-item">
-                            <h4 data-i18n="about_item1_title">رؤيتنا</h4>
-                            <p data-i18n="about_item1_desc">أن نكون المورد الأكثر موثوقية لقطع غيار الشواحن التيربينية بالمملكة العربية السعودية، مع تقديم حلول متكاملة وسريعة.</p>
-                        </div>
-                        <div class="about-item">
-                            <h4 data-i18n="about_item2_title">قيمنا</h4>
-                            <p data-i18n="about_item2_desc">الالتزام التام بالجودة، الشفافية مع عملائنا بالمملكة، وتوفير الدعم الفني المستمر لكافة شركائنا من المهندسين وأصحاب الورش.</p>
+            <h2 class="section-title" data-i18n="reviews_title">آراء عملائنا</h2>
+            <div class="reviews-grid">
+
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text" data-i18n="rev1_text">"جبت قلب تيربو لشانجان CS75 وركبوه بنفس اليوم. الأداء زي ما كان تمام. خدمة ممتازة وسعر معقول جداً مقارنة بالوكالة."</p>
+                    <div class="review-author">
+                        <div class="review-avatar" data-i18n="rev1_avatar">م.ع</div>
+                        <div>
+                            <strong data-i18n="rev1_author">محمد العتيبي</strong>
+                            <span data-i18n="rev1_region">الرياض</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Statistics Grid Column -->
-                <div class="about-stats-container">
-                    <div class="about-stats-grid">
-                        <div class="stat-card">
-                            <h3 class="stat-number" data-i18n="stat_1_val">5+</h3>
-                            <p class="stat-label" data-i18n="stat_1_label">سنوات خبرة في خدمة السوق السعودي</p>
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text" data-i18n="rev2_text">"طلبت تيربو كامل لهافال H6 وتم الشحن لجدة خلال يوم ونص. صندوق التغليف محترم وما فيه أي خلل. شكراً تيربو فورس."</p>
+                    <div class="review-author">
+                        <div class="review-avatar" data-i18n="rev2_avatar">خ.ز</div>
+                        <div>
+                            <strong data-i18n="rev2_author">خالد الزهراني</strong>
+                            <span data-i18n="rev2_region">جدة</span>
                         </div>
-                        <div class="stat-card">
-                            <h3 class="stat-number" data-i18n="stat_2_val">+1000</h3>
-                            <p class="stat-label" data-i18n="stat_2_label">عميل سعيد في كافة مدن المملكة</p>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text" data-i18n="rev3_text">"كانت عندي مشكلة في إيجاد القطعة الصح لجيلي إيمغراند. الفريق ساعدني من الكود وطلع لي القطعة المناسبة. محترفين!"</p>
+                    <div class="review-author">
+                        <div class="review-avatar" data-i18n="rev3_avatar">ع.ش</div>
+                        <div>
+                            <strong data-i18n="rev3_author">عبدالله الشمري</strong>
+                            <span data-i18n="rev3_region">القصيم</span>
                         </div>
-                        <div class="stat-card">
-                            <h3 class="stat-number" data-i18n="stat_3_val">وكالة وتجاري</h3>
-                            <p class="stat-label" data-i18n="stat_3_label">خيارات قطع غيار متعددة وبضمان</p>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text" data-i18n="rev4_text">"تعاملت معهم أكثر من مرة لورشتي. أسعار الجملة ممتازة والتوصيل سريع. أنصح كل ورشة صيانة بالتعامل معهم."</p>
+                    <div class="review-author">
+                        <div class="review-avatar" data-i18n="rev4_avatar">س.م</div>
+                        <div>
+                            <strong data-i18n="rev4_author">سعد المطيري</strong>
+                            <span data-i18n="rev4_region">الدمام</span>
                         </div>
-                        <div class="stat-card">
-                            <h3 class="stat-number" data-i18n="stat_4_val">مباشر</h3>
-                            <p class="stat-label" data-i18n="stat_4_label">دعم واستشارات فنية بمقر المركز</p>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+                    <p class="review-text" data-i18n="rev5_text">"طلبت خراطيش تيربو لثلاث سيارات صينية. الكل وصل مضمون وسليم. الرد على الواتساب سريع جداً."</p>
+                    <div class="review-author">
+                        <div class="review-avatar" data-i18n="rev5_avatar">ف.ح</div>
+                        <div>
+                            <strong data-i18n="rev5_author">فيصل الحربي</strong>
+                            <span data-i18n="rev5_region">مكة المكرمة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-text" data-i18n="rev6_text">"صراحة أحسن تجربة شريت فيها قطعة تيربو بالسعودية. السعر منافس وما اضطررت أدور كثير. شكراً على الخدمة."</p>
+                    <div class="review-author">
+                        <div class="review-avatar" data-i18n="rev6_avatar">ن.ق</div>
+                        <div>
+                            <strong data-i18n="rev6_author">ناصر القحطاني</strong>
+                            <span data-i18n="rev6_region">أبها</span>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
-    </section>
 
-    <!-- FAQ Section -->
-    <section class="faq section-padding" id="faq" style="background-color: var(--bg-secondary);">
-        <div class="container">
-            <h2 class="section-title" data-i18n="faq_title">الأسئلة الشائعة</h2>
-            <div class="faq-wrapper">
-                
-                <!-- Q1 -->
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span data-i18n="faq_q1">كيف يمكنني معرفة نواة التيربو المتوافقة مع سيارتي؟</span>
-                        <div class="faq-icon">
-                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-                        </div>
-                    </div>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_a1">يمكنك التحقق من الرقم التعريفي المكتوب على لوحة البيانات المعدنية للتيربو القديم (مثل رقم OEM أو رقم الموديل)، أو يمكنك ببساطة الاتصال بنا وسيقوم مهندسونا بمساعدتك فوراً.</p>
-                    </div>
-                </div>
-
-                <!-- Q2 -->
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span data-i18n="faq_q2">هل تتوفر لديكم قطع غيار وكالة أم تجارية؟</span>
-                        <div class="faq-icon">
-                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-                        </div>
-                    </div>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_a2">نوفر خيارات متنوعة تشمل قطع التيربو من المصنع مباشرة، بالإضافة إلى قطع غيار ما بعد البيع (Aftermarket) عالية الجودة والمعتمدة كبدائل ممتازة.</p>
-                    </div>
-                </div>
-
-                <!-- Q3 -->
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span data-i18n="faq_q3">هل تشحنون لجميع مدن المملكة؟</span>
-                        <div class="faq-icon">
-                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-                        </div>
-                    </div>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_a3">نعم، نحن نشحن إلى جميع مناطق ومدن المملكة العربية السعودية من خلال شركات الشحن المعتمدة والسريعة لتصلك الشحنة خلال 24 إلى 48 ساعة.</p>
-                    </div>
-                </div>
-
-                <!-- Q4 -->
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span data-i18n="faq_q4">لماذا لا تظهر الأسعار مباشرة على الموقع؟</span>
-                        <div class="faq-icon">
-                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-                        </div>
-                    </div>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_a4">نظراً لتغير الأسعار الدوري وتعدد موديلات المحركات وتوافقها، نفضل تقديم عروض أسعار دقيقة ومخصصة لكل عميل عبر الهاتف لضمان حصولك على القطعة الصحيحة بأفضل سعر ممكن.</p>
-                    </div>
-                </div>
-
+            <div style="text-align:center; margin-top:52px;">
+                <a href="contact.html" class="btn btn-primary" style="padding:18px 48px;" data-i18n="comp_cta">📞 اطلب سعرك الآن</a>
             </div>
         </div>
     </section>
 
-
-
-    <!-- Footer -->
-    <footer>
+    <!-- Explore Sections Cards -->
+    <section class="explore-sections section-padding" style="background-color: var(--bg-secondary);">
         <div class="container">
-            <div class="footer-grid">
+            <h2 class="section-title" data-i18n="home_cards_title">أقسام المركز</h2>
+            <div class="features-grid">
                 
-                <!-- About column -->
-                <div class="footer-col footer-about">
-                    <a href="#home" class="logo" aria-label="Turbo Force Home">
-                        <img src="assets/logo.jpg" alt="Turbo Force Logo" class="logo-img">
-                    </a>
-                    <p data-i18n="hero_desc">نحن متخصصون في توفير شواحن التيربو، وأنويتها (الخراطيش)، وأطقم الإصلاح، والمتحكمات الإلكترونية بأعلى معايير الجودة لضمان أقصى أداء لمحركك.</p>
-                </div>
-
-                <!-- Links column -->
-                <div class="footer-col">
-                    <h4 data-i18n="footer_quick_links">روابط سريعة</h4>
-                    <ul class="footer-links">
-                        <li><a href="#home" data-i18n="nav_home">الرئيسية</a></li>
-                        <li><a href="#gallery" data-i18n="nav_gallery">معرض الصور</a></li>
-                        <li><a href="#about" data-i18n="nav_about">من نحن</a></li>
-                        <li><a href="#faq" data-i18n="nav_faq">الأسئلة الشائعة</a></li>
-                        <li><a href="#contact" data-i18n="nav_contact">اتصل بنا</a></li>
-                    </ul>
-                </div>
-
-                <!-- Social Links column -->
-                <div class="footer-col">
-                    <h4 data-i18n="footer_social">وسائل التواصل</h4>
-                    <div class="social-links">
-                        <!-- WhatsApp Link -->
-                        <a href="https://wa.me/966536758510" target="_blank" class="social-link-item link-whatsapp" title="WhatsApp">
-                            <svg viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
-                        </a>
-                        <!-- Instagram Link -->
-                        <a href="https://www.instagram.com/turbo.force1?igsh=MWlwaDhmZG5mZGZwcg==" target="_blank" class="social-link-item link-instagram" title="Instagram">
-                            <svg viewBox="0 0 16 16"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/></svg>
-                        </a>
-                        <!-- Snapchat Link -->
-                        <a href="https://www.snapchat.com/add/turboforce1?share_id=UqCqIdWN4Sw&amp;locale=ar-EG" target="_blank" class="social-link-item link-snapchat" title="Snapchat">
-                            <svg viewBox="0 0 16 16"><path d="M15.943 11.526c-.111-.303-.323-.465-.564-.599a1 1 0 0 0-.123-.064l-.219-.111c-.752-.399-1.339-.902-1.746-1.498a3.4 3.4 0 0 1-.3-.531c-.034-.1-.032-.156-.008-.207a.3.3 0 0 1 .097-.1c.129-.086.262-.173.352-.231.162-.104.289-.187.371-.245.309-.216.525-.446.66-.702a1.4 1.4 0 0 0 .069-1.16c-.205-.538-.713-.872-1.329-.872a1.8 1.8 0 0 0-.487.065c.006-.368-.002-.757-.035-1.139-.116-1.344-.587-2.048-1.077-2.61a4.3 4.3 0 0 0-1.095-.881C9.764.216 8.92 0 7.999 0s-1.76.216-2.505.641c-.412.232-.782.53-1.097.883-.49.562-.96 1.267-1.077 2.61-.033.382-.04.772-.036 1.138a1.8 1.8 0 0 0-.487-.065c-.615 0-1.124.335-1.328.873a1.4 1.4 0 0 0 .067 1.161c.136.256.352.486.66.701.082.058.21.14.371.246l.339.221a.4.4 0 0 1 .109.11c.026.053.027.11-.012.217a3.4 3.4 0 0 1-.295.52c-.398.583-.968 1.077-1.696 1.472-.385.204-.786.34-.955.8-.128.348-.044.743.28 1.075q.18.189.409.31a4.4 4.4 0 0 0 1 .4.7.7 0 0 1 .202.09c.118.104.102.26.259.488q.12.178.296.3c.33.229.701.243 1.095.258.355.014.758.03 1.217.18.19.064.389.186.618.328.55.338 1.305.802 2.566.802 1.262 0 2.02-.466 2.576-.806.227-.14.424-.26.609-.321.46-.152.863-.168 1.218-.181.393-.015.764-.03 1.095-.258a1.14 1.14 0 0 0 .336-.368c.114-.192.11-.327.217-.42a.6.6 0 0 1 .19-.087 4.5 4.5 0 0 0 1.014-.404c.16-.087.306-.2.429-.336l.004-.005c.304-.325.38-.709.256-1.047M14.822 12.128c-.684.378-1.139.337-1.493.565-.3.193-.122.61-.34.76-.269.186-1.061-.012-2.085.326-.845.279-1.384 1.082-2.903 1.082s-2.045-.801-2.904-1.084c-1.022-.338-1.816-.14-2.084-.325-.218-.15-.041-.568-.341-.761-.354-.228-.809-.187-1.492-.563-.436-.24-.189-.39-.044-.46 2.478-1.199 2.873-3.05 2.89-3.188.022-.166.045-.297-.138-.466-.177-.164-.962-.65-1.18-.802-.36-.252-.52-.503-.402-.812.082-.214.281-.295.49-.295a1 1 0 0 1 0 2"/></svg>
-                        </a>
-                        <!-- TikTok Link -->
-                        <a href="https://www.tiktok.com/@turbo.force8?_r=1&_t=ZS-97OKf2y98EO" target="_blank" class="social-link-item link-tiktok" title="TikTok">
-                            <svg viewBox="0 0 16 16"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/></svg>
-                        </a>
+                <!-- Card 1: Gallery -->
+                <a href="gallery.html" class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
                     </div>
-                </div>
+                    <h3 data-i18n="nav_gallery">معرض الصور</h3>
+                    <p data-i18n="home_card_gallery_desc">تصفح صور شواحن وقلوب التيربو المتوفرة لدينا.</p>
+                </a>
 
-                <!-- Contacts column -->
-                <div class="footer-col">
-                    <h4 data-i18n="footer_contact">بيانات التواصل</h4>
-                    <div class="footer-contact-item">
-                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                        <a href="tel:0536758510">0536758510</a>
+                <!-- Card 2: How It Works -->
+                <a href="how-it-works.html" class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zM6 13h8c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1s.45 1 1 1zm0-4h12c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1s.45 1 1 1zm0 8h10c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
                     </div>
-                    <div class="footer-contact-item">
+                    <h3 data-i18n="nav_how">كيف نعمل</h3>
+                    <p data-i18n="home_card_how_desc">تعرف على خطوات طلب وفحص شاحن التيربو ومقارنة الأسعار.</p>
+                </a>
+
+                <!-- Card 3: Reviews -->
+                <a href="#reviews" class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                    <h3 data-i18n="nav_reviews">آراء العملاء</h3>
+                    <p data-i18n="home_card_reviews_desc">اقرأ تقييمات وآراء عملائنا في مختلف مدن المملكة.</p>
+                </a>
+
+                <!-- Card 4: About -->
+                <a href="about.html" class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    </div>
+                    <h3 data-i18n="nav_about">من نحن</h3>
+                    <p data-i18n="home_card_about_desc">تعرف على مركزنا بالرياض، خبرتنا، ورؤيتنا وقيمنا.</p>
+                </a>
+
+                <!-- Card 5: FAQ -->
+                <a href="faq.html" class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                    </div>
+                    <h3 data-i18n="nav_faq">الأسئلة الشائعة</h3>
+                    <p data-i18n="home_card_faq_desc">إجابات على الأسئلة الشائعة حول شواحن التيربو والضمان والشحن.</p>
+                </a>
+
+                <!-- Card 6: Contact -->
+                <a href="contact.html" class="feature-card">
+                    <div class="feature-icon">
                         <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                        <a href="mailto:turbo.force182@gmail.com">turbo.force182@gmail.com</a>
                     </div>
-                    <div class="footer-contact-item">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                        <span data-i18n="contact_address_val">المملكة العربية السعودية، الرياض، صناعية الدريهمية</span>
-                    </div>
-                </div>
+                    <h3 data-i18n="nav_contact">اتصل بنا</h3>
+                    <p data-i18n="home_card_contact_desc">اطلب سعر فوري لسيارتك عبر الواتساب أو اتصل بنا هاتفياً.</p>
+                </a>
 
-            </div>
-
-            <!-- Footer copyright bottom -->
-            <div class="footer-bottom">
-                <p>&copy; 2026 <span data-i18n="footer_rights">جميع الحقوق محفوظة. تيربو سبيد</span></p>
-                <p>Designed with passion</p>
             </div>
         </div>
-    </footer>
-
-    <!-- Floating WhatsApp Widget -->
-    <a href="https://wa.me/966536758510" class="whatsapp-float" target="_blank" aria-label="WhatsApp Us">
-        <svg viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.528 2.01 14.07 1 11.99 1c-5.433 0-9.852 4.373-9.856 9.803-.001 1.742.483 3.442 1.402 4.962L2.49 20.315l4.157-1.161zM17.707 14.4c-.315-.158-1.86-.92-2.148-1.025-.289-.105-.499-.158-.709.158-.21.315-.813 1.025-.996 1.235-.183.21-.367.236-.682.079-.315-.158-1.33-.49-2.532-1.562-.936-.835-1.568-1.867-1.751-2.182-.183-.315-.02-.485.138-.642.142-.142.315-.367.472-.551.157-.184.21-.315.315-.525.105-.21.053-.394-.026-.551-.079-.158-.709-1.707-.971-2.337-.256-.615-.516-.532-.709-.541-.183-.009-.394-.009-.604-.009-.21 0-.551.079-.839.394-.289.315-1.102 1.077-1.102 2.628 0 1.55 1.129 3.047 1.286 3.258.158.21 2.221 3.391 5.381 4.757.752.325 1.339.519 1.797.665.755.24 1.443.206 1.987.125.606-.09 1.86-.761 2.122-1.458.262-.696.262-1.287.184-1.418-.079-.131-.289-.21-.604-.368z"/>
-        </svg>
-    </a>
+    </section>
 
     <!-- Lightbox Modal for Image Preview -->
     <div id="imageLightbox" class="lightbox-modal">

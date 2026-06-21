@@ -2,6 +2,7 @@
 const translations = {
     ar: {
         company_name: "تيربو فورس | Turbo Force",
+        logo_text: "تيربو فورس | Turbo Force",
         nav_home: "الرئيسية",
         nav_products: "كتالوج المنتجات",
         nav_about: "من نحن",
@@ -103,10 +104,12 @@ const translations = {
         wa_phone: "رقم الجوال",
         wa_email: "البريد الإلكتروني",
         wa_code: "كود التيربو (رقم القطعة)",
-        wa_details: "تفاصيل الطلب"
+        wa_details: "تفاصيل الطلب",
+        reviews_title: "آراء عملائنا"
     },
     en: {
         company_name: "Turbo Force | Turbocharger Repair & Sales Riyadh",
+        logo_text: "Turbo Force",
         nav_home: "Home",
         nav_products: "Product Catalog",
         nav_about: "About Us",
@@ -204,10 +207,12 @@ const translations = {
         wa_phone: "Phone",
         wa_email: "Email",
         wa_code: "Turbo Code",
-        wa_details: "Details"
+        wa_details: "Details",
+        reviews_title: "What Our Customers Say"
     },
     bn: {
         company_name: "টার্বো ফোর্স | Turbo Force",
+        logo_text: "Turbo Force",
         nav_home: "হোম",
         nav_products: "পণ্য ক্যাটালগ",
         nav_about: "আমাদের সম্পর্কে",
@@ -313,6 +318,7 @@ const translations = {
     },
     hi: {
         company_name: "टर्बो फ़ोर्स | Turbo Force",
+        logo_text: "Turbo Force",
         nav_home: "होम",
         nav_products: "उत्पाद सूची",
         nav_about: "हमारे बारे में",
@@ -418,6 +424,7 @@ const translations = {
     },
     ur: {
         company_name: "ٹربو فورس | Turbo Force",
+        logo_text: "Turbo Force",
         nav_home: "ہوم",
         nav_products: "پروڈکٹ کیٹلاگ",
         nav_about: "ہمارے بارے میں",
@@ -523,6 +530,7 @@ const translations = {
     },
     zh: {
         company_name: "涡轮动力 | Turbo Force",
+        logo_text: "Turbo Force",
         nav_home: "首页",
         nav_products: "产品目录",
         nav_about: "关于我们",
@@ -628,6 +636,7 @@ const translations = {
     },
     fr: {
         company_name: "Turbo Force | Vente & Entretien",
+        logo_text: "Turbo Force",
         nav_home: "Accueil",
         nav_products: "Catalogue",
         nav_about: "À Propos",
@@ -733,6 +742,7 @@ const translations = {
     },
     de: {
         company_name: "Turbo Force | Verkauf & Service",
+        logo_text: "Turbo Force",
         nav_home: "Startseite",
         nav_products: "Katalog",
         nav_about: "Über uns",
@@ -838,6 +848,7 @@ const translations = {
     },
     es: {
         company_name: "Turbo Force | Venta y Servicio",
+        logo_text: "Turbo Force",
         nav_home: "Inicio",
         nav_products: "Catálogo",
         nav_about: "Nosotros",

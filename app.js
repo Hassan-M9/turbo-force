@@ -1,5 +1,5 @@
 // App State
-let currentLang = 'ar'; // Default language
+let currentLang = localStorage.getItem('preferredLanguage') || 'ar'; // Default language
 
 // DOM Elements
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,15 +11,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const formFeedback = document.getElementById("formFeedback");
     
     // Initialise Application
+    const isRTL = (currentLang === 'ar' || currentLang === 'ur');
+    document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+    document.documentElement.setAttribute('lang', currentLang);
+    document.body.className = 'lang-' + currentLang;
+    if (langSelect) {
+        langSelect.value = currentLang;
+    }
     updateLanguageUI(currentLang);
 
     // Handle Scroll Header Effect
     window.addEventListener("scroll", () => {
         const header = document.querySelector("header");
-        if (window.scrollY > 50) {
-            header.classList.add("scrolled");
-        } else {
-            header.classList.remove("scrolled");
+        if (header) {
+            if (window.scrollY > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
         }
     });
 
@@ -28,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
         menuToggle.addEventListener("click", () => {
             navLinks.classList.toggle("active");
             menuToggle.classList.toggle("active");
-            // Toggle hamburger icon animation
             const spans = menuToggle.querySelectorAll("span");
             if (menuToggle.classList.contains("active")) {
                 spans[0].style.transform = "rotate(45deg) translate(6px, 6px)";
@@ -58,18 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (langSelect) {
         langSelect.addEventListener("change", (e) => {
             currentLang = e.target.value;
-            
-            // Set body class and document dir
+            localStorage.setItem('preferredLanguage', currentLang);
             document.body.className = 'lang-' + currentLang;
             const isRTL = (currentLang === 'ar' || currentLang === 'ur');
             document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
             document.documentElement.setAttribute('lang', currentLang);
-
-            // Update UI elements
             updateLanguageUI(currentLang);
         });
     }
-
 
     // FAQ Accordion Toggle
     const faqQuestions = document.querySelectorAll(".faq-question");
@@ -77,57 +81,52 @@ document.addEventListener("DOMContentLoaded", () => {
         question.addEventListener("click", () => {
             const item = question.parentElement;
             const isActive = item.classList.contains("active");
-            
-            // Close all items
             document.querySelectorAll(".faq-item").forEach(faq => {
                 faq.classList.remove("active");
             });
-
-            // Toggle selected item
             if (!isActive) {
                 item.classList.add("active");
             }
         });
     });
 
-    // Contact Form Submission Validation
+    // Contact Form Submission
     if (contactForm) {
         contactForm.addEventListener("submit", (e) => {
             e.preventDefault();
             
             const nameVal = document.getElementById("clientName").value.trim();
             const phoneVal = document.getElementById("clientPhone").value.trim();
-            const emailVal = document.getElementById("clientEmail").value.trim();
             const turboCodeVal = document.getElementById("clientTurboCode").value.trim();
             const messageVal = document.getElementById("clientMessage").value.trim();
 
             if (nameVal === "" || phoneVal === "" || messageVal === "") {
-                alert(currentLang === 'ar' ? "يرجى تعبئة الحقول الأساسية: الاسم، رقم الجوال، وتفاصيل الطلب." : "Please fill in the required fields: Name, Phone, and Order Details.");
+                alert(currentLang === 'ar'
+                    ? "يرجى تعبئة الحقول الأساسية: الاسم، رقم الجوال، وتفاصيل الطلب."
+                    : "Please fill in the required fields: Name, Phone, and Order Details.");
                 return;
             }
 
-            // Construct WhatsApp message
+            // Construct WhatsApp message with emojis
             let waMsg = "";
             if (currentLang === 'ar') {
-                waMsg = `السلام عليكم ورحمة الله،\nأود الحصول على عرض سعر لتيربو:\n\n*الاسم:* ${nameVal}\n*رقم الجوال:* ${phoneVal}`;
-                if (emailVal) waMsg += `\n*البريد الإلكتروني:* ${emailVal}`;
-                if (turboCodeVal) waMsg += `\n*كود التيربو (رقم القطعة):* ${turboCodeVal}`;
-                waMsg += `\n*تفاصيل الطلب:* ${messageVal}`;
+                waMsg = `🔧 *طلب سعر تيربو - تيربو فورس*\n\n👤 *الاسم:* ${nameVal}\n📞 *رقم الجوال:* ${phoneVal}`;
+                if (turboCodeVal) waMsg += `\n🔢 *كود التيربو:* ${turboCodeVal}`;
+                waMsg += `\n📝 *تفاصيل الطلب:* ${messageVal}`;
+                waMsg += `\n\n_تم الإرسال من موقع تيربو فورس_`;
             } else {
-                waMsg = `Hello,\nI would like to request a quote for a turbocharger:\n\n*Name:* ${nameVal}\n*Phone:* ${phoneVal}`;
-                if (emailVal) waMsg += `\n*Email:* ${emailVal}`;
-                if (turboCodeVal) waMsg += `\n*Turbo Code:* ${turboCodeVal}`;
-                waMsg += `\n*Details:* ${messageVal}`;
+                waMsg = `🔧 *Turbo Quote Request - Turbo Force*\n\n👤 *Name:* ${nameVal}\n📞 *Phone:* ${phoneVal}`;
+                if (turboCodeVal) waMsg += `\n🔢 *Turbo Code:* ${turboCodeVal}`;
+                waMsg += `\n📝 *Details:* ${messageVal}`;
+                waMsg += `\n\n_Sent from Turbo Force website_`;
             }
 
             const waLink = `https://wa.me/966536758510?text=${encodeURIComponent(waMsg)}`;
             window.open(waLink, '_blank');
 
-            // Simulate form submission success visual feedback
             formFeedback.style.display = "block";
             contactForm.reset();
 
-            // Clear feedback after 6 seconds
             setTimeout(() => {
                 formFeedback.style.opacity = "0";
                 setTimeout(() => {
@@ -138,24 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Scroll Spy for Nav links
-    window.addEventListener("scroll", () => {
-        const sections = document.querySelectorAll("section[id]");
-        let scrollY = window.pageYOffset;
-
-        sections.forEach(current => {
-            const sectionHeight = current.offsetHeight;
-            const sectionTop = current.offsetTop - 100;
-            const sectionId = current.getAttribute("id");
-
-            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                document.querySelector(`.nav-links a[href*=${sectionId}]`)?.classList.add("active");
-            } else {
-                document.querySelector(`.nav-links a[href*=${sectionId}]`)?.classList.remove("active");
-            }
-        });
-    });
-
     // Turbo Guide Toggle
     const guideToggle = document.getElementById("guideToggle");
     const turboGuideContainer = document.getElementById("turboGuideContainer");
@@ -163,7 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
         guideToggle.addEventListener("click", () => {
             turboGuideContainer.classList.toggle("active");
             const isExpanded = turboGuideContainer.classList.contains("active");
-            
             const spanText = guideToggle.querySelector("span");
             if (spanText) {
                 const key = isExpanded ? 'hide_guide' : 'show_guide';
@@ -182,11 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 guideTabButtons.forEach(btn => btn.classList.remove("active"));
                 button.classList.add("active");
                 const index = button.getAttribute("data-guide-index");
-                
-                // Swap Image source
                 guideImage.src = `assets/turbo_plate_${index}.png`;
-                
-                // Swap Caption based on current language
                 const key = `guide_caption_${index}`;
                 guideImageCaption.setAttribute("data-i18n", key);
                 guideImageCaption.textContent = translations[currentLang][key];
@@ -203,8 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (file) {
                 const objectURL = URL.createObjectURL(file);
                 const fileSizeKB = (file.size / 1024).toFixed(1);
-                
-                // Populated custom preview
                 previewContainer.innerHTML = `
                     <img class="upload-preview-thumbnail" src="${objectURL}" alt="Preview">
                     <div class="upload-preview-info">
@@ -218,8 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     </button>
                 `;
                 previewContainer.style.display = "flex";
-                
-                // Add click event to remove button
                 const btnRemove = document.getElementById("btnRemoveUpload");
                 if (btnRemove) {
                     btnRemove.addEventListener("click", () => {
@@ -244,9 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 previewContainer.style.display = "none";
                 previewContainer.innerHTML = "";
             }
-            if (fileInput) {
-                fileInput.value = "";
-            }
+            if (fileInput) fileInput.value = "";
         };
     }
 
@@ -256,26 +226,128 @@ document.addEventListener("DOMContentLoaded", () => {
     const lightboxClose = document.getElementById("lightboxClose");
 
     if (lightbox && lightboxImg && lightboxClose) {
-        // Event delegation to open lightbox when clicking preview image
         document.addEventListener("click", (e) => {
-            if (e.target && e.target.classList.contains("upload-preview-thumbnail")) {
+            if (e.target && (e.target.classList.contains("upload-preview-thumbnail") || e.target.matches(".gallery-img-wrapper img"))) {
                 lightbox.style.display = "block";
                 lightboxImg.src = e.target.src;
             }
         });
-
-        // Close lightbox
-        lightboxClose.addEventListener("click", () => {
-            lightbox.style.display = "none";
-        });
-
-        // Close lightbox on click outside the image
+        lightboxClose.addEventListener("click", () => { lightbox.style.display = "none"; });
         lightbox.addEventListener("click", (e) => {
-            if (e.target === lightbox) {
-                lightbox.style.display = "none";
-            }
+            if (e.target === lightbox) lightbox.style.display = "none";
         });
     }
+
+    // ─────────────────────────────────────────────────
+    // SCROLL TO TOP BUTTON
+    // ─────────────────────────────────────────────────
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    if (scrollTopBtn) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                scrollTopBtn.classList.add("visible");
+            } else {
+                scrollTopBtn.classList.remove("visible");
+            }
+        });
+        scrollTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    }
+
+    // ─────────────────────────────────────────────────
+    // ANIMATED COUNTERS (Intersection Observer)
+    // ─────────────────────────────────────────────────
+    const statCards = document.querySelectorAll(".stat-card");
+
+    const animateCounter = (el, rawText) => {
+        const duration = 1800;
+        const start = performance.now();
+        // Extract numeric part
+        const numMatch = rawText.match(/\d+/);
+        if (!numMatch) return;
+        const targetNum = parseInt(numMatch[0]);
+        const hasPlusSuffix = rawText.trim().endsWith("+");
+        const hasPlusPrefix = rawText.trim().startsWith("+");
+        const suffix = hasPlusSuffix ? "+" : "";
+        const prefix = hasPlusPrefix ? "+" : "";
+
+        const tick = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(eased * targetNum);
+            el.textContent = prefix + current.toLocaleString('ar-SA') + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = prefix + targetNum.toLocaleString('ar-SA') + suffix;
+        };
+        requestAnimationFrame(tick);
+    };
+
+    const statObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.counted) {
+                entry.target.dataset.counted = "true";
+                const numEl = entry.target.querySelector(".stat-number");
+                if (numEl) animateCounter(numEl, numEl.textContent.trim());
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statCards.forEach(card => statObserver.observe(card));
+
+    // ─────────────────────────────────────────────────
+    // SCROLL REVEAL ANIMATIONS
+    // ─────────────────────────────────────────────────
+    const revealSelectors = [
+        ".feature-card", ".review-card", ".gallery-card",
+        ".faq-item", ".about-item", ".stat-card",
+        ".contact-form-container", ".contact-sidebar", ".section-title"
+    ];
+
+    revealSelectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach((el, idx) => {
+            el.classList.add("animate-on-scroll");
+            if (idx < 6) el.classList.add(`delay-${idx + 1}`);
+        });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".animate-on-scroll").forEach(el => revealObserver.observe(el));
+
+    // ─────────────────────────────────────────────────
+    // HERO QUICK STATS — Count up on page load
+    // ─────────────────────────────────────────────────
+    const heroStatNums = document.querySelectorAll(".hero-stat-num");
+
+    const countHeroStat = (el) => {
+        const target = parseInt(el.getAttribute("data-target") || "0");
+        const duration = 1600;
+        const start = performance.now();
+        const tick = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target).toLocaleString();
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = target.toLocaleString();
+        };
+        requestAnimationFrame(tick);
+    };
+
+    // Fire hero counters 700ms after load
+    setTimeout(() => {
+        heroStatNums.forEach(el => countHeroStat(el));
+    }, 700);
+
 });
 
 // Update Text Nodes on Page based on selected Language
@@ -283,8 +355,7 @@ function updateLanguageUI(lang) {
     const i18nElements = document.querySelectorAll("[data-i18n]");
     i18nElements.forEach(elem => {
         const key = elem.getAttribute("data-i18n");
-        if (translations[lang][key]) {
-            // Check if element is a title or innerHTML
+        if (translations[lang] && translations[lang][key]) {
             if (key === 'hero_title') {
                 elem.innerHTML = translations[lang][key];
             } else {
@@ -293,19 +364,16 @@ function updateLanguageUI(lang) {
         }
     });
 
-    // Update input placeholders
     const placeholders = document.querySelectorAll("[data-i18n-placeholder]");
     placeholders.forEach(elem => {
         const key = elem.getAttribute("data-i18n-placeholder");
-        if (translations[lang][key]) {
+        if (translations[lang] && translations[lang][key]) {
             elem.setAttribute("placeholder", translations[lang][key]);
         }
     });
 
-    // Update document title
-    document.title = translations[lang].company_name;
+    document.title = translations[lang].company_name || document.title;
 
-    // Update Guide Button text dynamically
     const guideToggle = document.getElementById("guideToggle");
     const turboGuideContainer = document.getElementById("turboGuideContainer");
     if (guideToggle && turboGuideContainer) {
@@ -317,7 +385,6 @@ function updateLanguageUI(lang) {
         }
     }
 
-    // Update active tab caption text in language switch
     const guideImageCaption = document.getElementById("guideImageCaption");
     if (guideImageCaption) {
         const activeKey = guideImageCaption.getAttribute("data-i18n");
@@ -326,4 +393,3 @@ function updateLanguageUI(lang) {
         }
     }
 }
-
